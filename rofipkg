@@ -1,0 +1,17 @@
+#!/bin/bash
+#Config 
+if [ -f "~/.config/rofipkg" ]; 
+then
+
+echo "~/.config/rofipkg detected"
+
+else
+
+echo -e 'su="sudo" \n term="sakura" \n pkg="pacman" \n pkgs="-Sql" \n pkgi="-Syu" \n' >> ~/.config/rofipkg
+
+fi
+
+source ~/.config/rofipkg
+
+##rofi
+selected="$($pkg $pkgs | rofi -lines 13 -dmenu -p "Package Search: "| xargs -ro $term -e $su $pkg $pkgi)"
