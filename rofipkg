@@ -7,6 +7,7 @@ echo "~/.config/rofipkg detected"
 
 else
 
+echo "WARNING: Config file (~/.config/rofipkg) not detected, creating default config file..."
 echo -e 'su="sudo" \n term="sakura" \n pkg="pacman" \n pkgs="-Sql" \n pkgi="-Syu" \n' >> ~/.config/rofipkg
 
 fi
