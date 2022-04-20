@@ -1,6 +1,6 @@
 #!/bin/bash
-#Config 
-if [ -f "~/.config/rofipkg" ]; 
+##Config 
+if [ -f ".config/rofipkg" ]; 
 then
 
 echo "~/.config/rofipkg detected"
