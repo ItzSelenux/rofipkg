@@ -1,18 +1,41 @@
-#!/bin/bash
+#!/bin/sh
+
 ##Config 
 if [ -f ".config/rofipkg" ]; 
 then
-
-echo "~/.config/rofipkg detected"
-
+    printf "~/.config/rofipkg detected \n"
 else
-
-echo "WARNING: Config file (~/.config/rofipkg) not detected, creating default config file..."
-echo -e 'su="sudo" \n term="sakura" \n pkg="pacman" \n pkgs="-Sql" \n pkgi="-Syu" \n' >> ~/.config/rofipkg
-
+    printf "WARNING: Config file (~/.config/rofipkg) not detected, creating default config file... \n"
+    printf 'su="sudo" \n term="sakura" \n pkg="pacman" \n pkgs="-Sql" \n pkgi="-Syu" \n pkgr="-Rns" \n pkgl="-Qq" \n' > .config/rofipkg
 fi
 
 source ~/.config/rofipkg
 
-##rofi
-selected="$($pkg $pkgs | rofi -lines 13 -dmenu -p "Package Search: "| xargs -ro $term -e $su $pkg $pkgi)"
+mnu="rofi -lines 13 -dmenu -p"
+
+# Main Menu Options
+option0="Update System"
+option1="Install Packages"
+option2="Remove Packages"
+option3="Info for a Installed Package (Not Implemented)"
+option4="Info for a non Installed Package (Not Implemented)"
+
+# Variable passed to rofi
+options="$option0\n$option1\n$option2\n$option3\n$option4"
+
+# Main Menu Rofi Index
+selected="$(echo -e "$options" | rofi -lines 13 -dmenu -p "Package Manager")"
+
+# Cases
+case $selected in
+    $option0)
+             selected="$(sakura -e $su $pkg $pkgi)";;
+    $option1)
+             selected="$($pkg $pkgs | $mnu "Package Search" | xargs -ro $term -e $su $pkg $pkgi)";;
+    $option2)
+             selected="$($pkg $pkgl | $mnu "Package Remove" | xargs -ro $term -e $su $pkg $pkgr)";;
+    $option3)
+             selected="$($pkg $pkgl | $mnu "Package Search" | xargs $term -e $pkg $pkgq & pause" & read -n1 -r  )";;
+    $option4)
+             selected="$($pkg $pkgs | $mnu  "Package Search" | xargs sh -c "$term -e $pkg $pkgq ; pause"  )";;
+esac
