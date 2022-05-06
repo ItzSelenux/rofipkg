@@ -1,6 +1,8 @@
 #!/bin/sh
 
 ##Config 
+cd ~/
+
 if [ -f ".config/rofipkg" ]; 
 then
     printf "~/.config/rofipkg detected \n"
@@ -34,8 +36,4 @@ case $selected in
              selected="$($pkg $pkgs | $mnu "Package Search" | xargs -ro $term -e $su $pkg $pkgi)";;
     $option2)
              selected="$($pkg $pkgl | $mnu "Package Remove" | xargs -ro $term -e $su $pkg $pkgr)";;
-    $option3)
-             selected="$($pkg $pkgl | $mnu "Package Search" | xargs $term -e $pkg $pkgq & pause" & read -n1 -r  )";;
-    $option4)
-             selected="$($pkg $pkgs | $mnu  "Package Search" | xargs sh -c "$term -e $pkg $pkgq ; pause"  )";;
 esac
